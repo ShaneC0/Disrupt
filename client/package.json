@@ -1,0 +1,30 @@
+{
+  "name": "disrupt-client",
+  "version": "0.1.0",
+  "description": "Electron chat app.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "webpack:watch": "webpack --config webpack.config.js --watch"
+  },
+  "author": "@ShaneC0",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "babel-loader": "^8.2.1",
+    "css-loader": "^5.0.1",
+    "electron": "^10.1.5",
+    "electron-reload": "^1.5.0",
+    "jsx-loader": "^0.13.2",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  }
+}
