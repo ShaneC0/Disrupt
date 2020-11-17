@@ -1,17 +1,27 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { IsNotEmpty, IsString, Length } from "class-validator";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
 
 @Entity()
-export class User {
+export default class User {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
+    @IsNotEmpty()
+    @IsString()
+    @Length(2, 20)
     username: string;
 
     @Column()
-    email: string;
-
-    @Column()
+    @IsNotEmpty()
+    @IsString()
+    @Length(8)
     password: string;
+
+    @CreateDateColumn()
+    createDate: Date;
+
+    @UpdateDateColumn()
+    updateDate: Date;
 }

@@ -17,8 +17,6 @@ header {
     display: flex;
     align-items: center;
     height: 6vh;
-    border-bottom: 1px solid #f3f9d2;
-    box-shadow: 0px 10px 10px rgba(0,0,0,0.5)
 }
 
 header h1 {
@@ -43,10 +41,8 @@ form {
     align-items: center;
     justify-content: space-between;
     background: #2f2f2f;
-    border: 1px solid #f3f9d2;
     border-radius: 4px;
     padding: 3%;
-    box-shadow: 6px 8px 10px rgba(0,0,0,0.3), -6px -4px 10px rgba(0,0,0,0.3);
 }
 
 form h2 {
@@ -73,9 +69,6 @@ form .form-group input {
     width: 20vw;
     height: 94vh;
     background: #2f2f2f;
-    border-right: 1px solid #f3f9d2;
-    
-    box-shadow: 10px 0px 10px rgba(0,0,0,0.5)
 }
 
 #landing {
