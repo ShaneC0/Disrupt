@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import SignupForm from "../components/SignupForm";
 import SigninForm from "../components/SigninForm";
@@ -11,33 +11,50 @@ export default class Landing extends React.Component {
       username: "",
       password: "",
       confirmPassword: "",
+      errors: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.switchAuthMethod = this.switchAuthMethod.bind(this)
   }
 
   async handleSubmit(e) {
     e.preventDefault();
 
+    if (
+      this.state.password !== this.state.confirmPassword &&
+      this.state.authMethod === "signup"
+    ) {
+      this.setState({ errors: ["Passwords do not match"] });
+    } else {
+      const response = await fetch(
+        `http://localhost:6969/api/v1/auth/${this.state.authMethod}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.state.username,
+            password: this.state.password,
+          }),
+        }
+      );
 
-    //MAKE SURE TO CHECK CONFIRM PASSWORD
+      const data = await response.json();
 
-
-    const response = await fetch(`http://localhost:6969/api/v1/auth/${this.state.authMethod}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': "application/json"
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-
-    const data = await response.json()
-
-    console.log(data)
+      if (!response.ok) {
+        if (data.validationErrors !== null || undefined) {
+          this.setState({ errors: data.validationErrors });
+        } else {
+          this.setState({ errors: [data.message] });
+        }
+      } else {
+        localStorage.token = data.token
+        this.props.history.push('/dump')
+      }
+    }
   }
 
   handleChange(event) {
@@ -46,36 +63,32 @@ export default class Landing extends React.Component {
     const name = target.name;
     this.setState({
       [name]: value,
+      errors: [],
     });
+  }
+
+  switchAuthMethod() {
+    this.setState(state => ({
+      authMethod: state.authMethod === 'signup' ? 'signin' : 'signup'
+    }))
   }
 
   render() {
     return (
       <div id="landing">
-        <div className="text-group">
-          <h1>Disrupt</h1>
-          <div className="btn-group">
-            {this.state.authMethod === "signup" ? (
-              <button onClick={() => this.setState({ authMethod: "signin" })}>
-                Sign in
-              </button>
-            ) : (
-              <button onClick={() => this.setState({ authMethod: "signup" })}>
-                Create account
-              </button>
-            )}
-          </div>
-        </div>
-
         {this.state.authMethod === "signup" ? (
           <SignupForm
             onSubmit={this.handleSubmit}
             handleChange={this.handleChange}
+            errors={this.state.errors}
+            switchAuth={this.switchAuthMethod}
           />
         ) : (
           <SigninForm
             onSubmit={this.handleSubmit}
             handleChange={this.handleChange}
+            errors={this.state.errors}
+            switchAuth={this.switchAuthMethod}
           />
         )}
       </div>

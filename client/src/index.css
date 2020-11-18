@@ -1,119 +1,173 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: sans-serif;
-    color: #f3f9d2;
+  font-family: sans-serif;
+  color: #f3f9d2;
+  background: #444545;
 }
 
-header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    background: #2f2f2f;
-    display: flex;
-    align-items: center;
-    height: 6vh;
+#root {
+  display: grid;
+  grid-template-columns: 5vw 15vw auto 15vw;
+  grid-template-rows: auto 50vh auto;
+  height: 100vh;
 }
 
-header h1 {
-    font-weight: 100;
-}
+/* BUTTON  */
 
-header * {
-    margin: 0 1vw 0 1vw;
-}
 
 button {
-    background: #6a8eae;
-    color: #f3f9d2;
-    border: none;
-    padding: 1vh 1vw 1vh 1vw;
-    border-radius: 4px;
+  background: #6a8eae;
+  color: #f3f9d2;
+  border: none;
+  padding: 1.5vh 1vw 1.5vh 1vw;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
+button:focus {
+  outline: none;
+}
+
+
+/* FORM   */
+
+
+
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background: #2f2f2f;
-    border-radius: 4px;
-    padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #444545;
+  border-radius: 6px;
+  padding: 5%;
+  box-shadow: 0px 8px 17px 2px rgba(0,0,0,0.14) , 0px 3px 14px 2px rgba(0,0,0,0.12) , 0px 5px 5px -3px rgba(0,0,0,0.2);
 }
 
 form h2 {
-    font-size: 36px;
+  font-size: 24px;
+  margin: 0 0 4vh 0;
 }
 
 form .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 65%;
 }
 
 form .form-group input {
-    font-size: 16px;
-    padding: 5%;
-    border-radius: 4px;
-    border: 1px solid #444545;
-    background: none;
-    color: #f3f9d2;
+  font-size: 16px;
+  padding: 3%;
+  margin: 0 0 3vh 0;
+  border-radius: 4px;
+  border: 1px solid black;
+  background: #2f2f2f;
+  color: #f3f9d2;
 }
 
-#sidebar {
-    position: absolute;
-    width: 20vw;
-    height: 94vh;
-    background: #2f2f2f;
+form .form-group label {
+  margin: 0 0 1vh 0;
+  font-size: 10px;
 }
+
+form .error-group {
+  color: #f3f9d2;
+  background: #e78282;
+  border: 2px solid #d36060;
+  padding: 2%;
+  margin: 0 0 2vh 0;
+  border-radius: 4px;
+}
+
+form button {
+    width: 65%;
+    margin: 0 0 2vh 0;
+}
+
+form .helper-text {
+  display: flex;
+}
+
+/* LANDING */
+
+
 
 #landing {
-    background: #444545;
-    height: 94vh;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 25% 50% 25%;
-    align-items: center;
-}
-
-#landing h1 {
-    font-size: 96px;
-    grid-row: 2;
-    grid-column: 2;
-    justify-self: center;
-}
-
-#landing .text-group {
-    grid-row: 2/3;
-    grid-column: 2/3;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-
-#landing .text-group * {
-    margin: 1vh 0 1vh 0;
-}
-
-#landing .btn-group button {
-    font-size: 24px;
-    margin: 0 1vw 0 1vw;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  height: 100%;
+  width: 100%;
+  background: #2f2f2f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #landing form {
-    grid-row: 2/3;
-    grid-column: 1/2;
-    height: 100%;
-    width: 50%;
-    justify-self: center;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  width: 35%;
+}
+
+#landing form span {
+  color: #6a8eae;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 
+
+/* SERVER LIST */
+
+
+#server-list {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  background: #2f2f2f;
+  height: 100%;
+  width: 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#server-list button {
+  background: #444545;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin: 1vh 0 1vh 0;
+}
+
+
+/* CHANNEL LIST */
+
+
+
+
+#channel-list {
+  grid-column: 2/3;
+  grid-row: 1/4;
+  background: #444545;
+  height: 100%;
+}
+
+
+
+/* USER LIST */
+
+
+
+#user-list {
+  grid-column: 4/5;
+  grid-row: 1/4
+}

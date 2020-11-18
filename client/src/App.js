@@ -1,16 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import Nav from "./components/Nav"
-import Landing from "./pages/Landing"
+import ServerList from "./components/ServerList"
+import ChannelList from "./components/ChannelList"
+import UserList from "./components/UserList"
+
+import Landing from "./pages/Landing";
+import Dump from "./pages/Dump";
 
 export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <Nav />
+        <ServerList />
+        <ChannelList />
+        <UserList />
         <Switch>
-          <Route path="/" component={Landing}/>
+          <Route exact path="/" component={Landing} />
+          <Route path="/dump" component={Dump} />
         </Switch>
       </Router>
     );

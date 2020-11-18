@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getRepository } from "typeorm";
 import { hash, verify } from "argon2";
 import { validate } from "class-validator";
+import * as jwt from "jsonwebtoken";
 
 import User from "../../entity/User";
 
@@ -36,7 +37,22 @@ authRouter.post("/signup", async (req, res, next) => {
 
     const user = await repository.findOne({ username });
 
-    return res.json({ user });
+    jwt.sign(
+      {
+        username: user.username,
+      },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: 60 * 60 * 24 * 365 * 10,
+      },
+      (err, token) => {
+        if (err) {
+          return next(err);
+        } else {
+          return res.json({ user, token });
+        }
+      }
+    );
   }
 });
 
@@ -52,7 +68,22 @@ authRouter.post("/signin", async (req, res, next) => {
   }
 
   if (await verify(existingUser.password, password)) {
-    return res.json({ user: existingUser });
+    jwt.sign(
+      {
+        username: existingUser.username,
+      },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: 60 * 60 * 24 * 365 * 10,
+      },
+      (err, token) => {
+        if (err) {
+          return next(err);
+        } else {
+          return res.json({ user: existingUser, token });
+        }
+      }
+    );
   } else {
     return next(new Error("Incorrect username or password"));
   }
