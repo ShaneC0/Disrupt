@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default function ChannelList() {
+export default function ChannelList(props) {
     return (
         <div id="channel-list">
-            <h1>Server name</h1>
-            <ul>
-                <li>#General</li>
-                <li>#Private</li>
-            </ul>
+            <div className="title">
+            <h3>{props.serverName}</h3>
+            </div>
+            <h5>Channels</h5>
+            <p>#General</p>
         </div>
     )
 }

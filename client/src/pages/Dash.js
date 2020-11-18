@@ -1,45 +1,75 @@
 import React from "react";
 
 import ServerList from "../components/ServerList";
-import ChannelList from "../components/ChannelList";
-import UserList from "../components/UserList";
-import { Switch } from "react-router-dom";
+import Server from "./Server";
 
 export default class Dash extends React.Component {
-    constructor(props) {
-        super(props) 
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            servers: null
-        }
+    this.state = {
+      servers: null,
+      currentServer: null,
+      channels: null,
+      users: null,
+    };
+    this.setServer = this.setServer.bind(this);
+  }
+
+  async fetchServers() {
+    const response = await fetch("http://localhost:6969/api/v1/server/member", {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState({ servers: data.servers });
     }
+  }
 
-    async fetchServers() {
-        const response = await fetch('http://localhost:6969/api/v1/server/member', {
-            headers: {
-                'Authorization': `Bearer ${localStorage.token}`
-            }
-        })
+  async fetchUsers(server) {
+    const response = await fetch(
+      `http://localhost:6969/api/v1/server/users/${server.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
 
-        const data = await response.json()
+    const data = await response.json();
 
-        if(!response.ok) {
-            console.error(data)
-        } else {
-            this.setState({servers: data.servers})
-        }
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState({ users: data.users });
     }
+  }
 
-    async componentDidMount() {
-        await this.fetchServers()
+  async setServer(server) {
+    if (this.state.currentServer != server) {
+      await this.fetchUsers(server);
+      this.setState({ currentServer: server });
     }
+  }
 
-    render() {
-        return (
-            <>
-            <ServerList servers={this.state.servers}/>
-            {/* put switch with other routes inside here */}
-            </>
-        )
-    }
+  async componentDidMount() {
+    await this.fetchServers();
+  }
+
+  render() {
+    return (
+      <>
+        <ServerList servers={this.state.servers} setServer={this.setServer} />
+        {this.state.currentServer ? (
+          <Server server={this.state.currentServer} users={this.state.users} />
+        ) : null}
+      </>
+    );
+  }
 }

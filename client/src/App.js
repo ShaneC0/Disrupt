@@ -12,7 +12,7 @@ export default class App extends React.Component {
       user: null,
     };
 
-    this.setUser = this.setUser.bind(this)
+    this.setUser = this.setUser.bind(this);
   }
 
   async setUser() {
@@ -35,18 +35,18 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    await this.setUser()
+    await this.setUser();
   }
 
   render() {
     return (
-      <Router>
+      <>
         {this.state.user ? (
-          <Dash user={this.state.user} />
+          <Dash />
         ) : (
           <Landing setUser={this.setUser} />
         )}
-      </Router>
+      </>
     );
   }
 }

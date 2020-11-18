@@ -76,11 +76,14 @@ serverRouter.post("/create", async (req, res, next) => {
     await serverRepository.save(serverToCreate);
     const createdServer = await serverRepository.findOne(serverToCreate.id);
 
-    const membershipRepository = getRepository(Membership)
+    const membershipRepository = getRepository(Membership);
 
-    const membershipToCreate = membershipRepository.create({userId: id, serverId: createdServer.id})
+    const membershipToCreate = membershipRepository.create({
+      userId: id,
+      serverId: createdServer.id,
+    });
 
-    await membershipRepository.save(membershipToCreate)
+    await membershipRepository.save(membershipToCreate);
 
     return res.json({ server: createdServer });
   }
@@ -125,9 +128,25 @@ serverRouter.post("/join/:id", async (req, res, next) => {
     userId,
   });
 
-  await repository.save(membershipToCreate)
+  await repository.save(membershipToCreate);
 
-  res.json({success: true})
+  res.json({ success: true });
+});
+
+//find all users in a server
+serverRouter.get("/users/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const repository = getRepository(Membership);
+
+  const memberships = await repository
+    .createQueryBuilder("membership")
+    .leftJoinAndSelect("membership.user", "user")
+    .where("membership.serverId = :id", {id})
+    .getMany();
+
+  const users = memberships.map((membership) => membership.user);
+
+  res.json({ users });
 });
 
 export default serverRouter;
