@@ -1,43 +1,26 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import Express from "express";
-import morgan from "morgan"
+import express from "express";
+import morgan from "morgan";
 
+import {
+  checkTokenSetUser,
+  errorHandler,
+  notFound,
+} from "./api/lib/middleware";
 import apiRouter from "./api/api.router";
 
-const app = Express();
+const app: express.Application = express();
 
-app.use(Express.json());
+app.use(express.json());
 
-app.use(morgan('tiny'))
+app.use(morgan("tiny"));
 
-app.use("/api/v1", apiRouter);
+app.use("/api/v1", checkTokenSetUser, apiRouter);
 
-app.use((req, res, next) => {
-  res.status(404);
-  next(new Error(`Not found - ${req.originalUrl}`));
-});
+app.use(notFound);
 
-app.use((err, req, res, next) => {
-  let validationErrors = (errors) => {
-    if (Array.isArray(errors)) {
-      return errors.map((error) => {
-        for (err in error.constraints) {
-          return error.constraints[err];
-        }
-      });
-    } else {
-      return null;
-    }
-  };
-
-  res.status(500);
-  res.json({
-    message: err.message,
-    stack: err.stack,
-    validationErrors: validationErrors(err),
-  });
-});
+app.use(errorHandler);
 
 app.listen(process.env.PORT, async () => {
   const connection = await createConnection();

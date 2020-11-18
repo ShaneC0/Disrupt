@@ -26,8 +26,8 @@ serverRouter.get("/details/:id", async (req, res, next) => {
 });
 
 //get servers where user is a member by user id
-serverRouter.get("/member/:id", async (req, res, next) => {
-  const { id } = req.params;
+serverRouter.get("/member", async (req, res, next) => {
+  const { id } = req["user"];
   const repository = getRepository(Membership);
   const memberships = await repository
     .createQueryBuilder("membership")
@@ -45,8 +45,8 @@ serverRouter.get("/member/:id", async (req, res, next) => {
 });
 
 //get servers where user is owner by user id
-serverRouter.get("/owner/:id", async (req, res, next) => {
-  const { id } = req.params;
+serverRouter.get("/owner", async (req, res, next) => {
+  const { id } = req["user"];
   const repository = getRepository(Server);
 
   const servers = await repository
@@ -63,17 +63,25 @@ serverRouter.get("/owner/:id", async (req, res, next) => {
 
 //create server
 serverRouter.post("/create", async (req, res, next) => {
-  //get the owner ID from the token
-  const { name, ownerId } = req.body;
-  const repository = getRepository(Server);
-  const serverToCreate = repository.create({ name, ownerId });
+  const { id } = req["user"];
+  const { name } = req.body;
+  const serverRepository = getRepository(Server);
+  const serverToCreate = serverRepository.create({ name, ownerId: id });
+
   const errors = await validate(serverToCreate);
 
   if (errors.length > 0) {
     return next(errors);
   } else {
-    await repository.save(serverToCreate);
-    const createdServer = await repository.findOne(serverToCreate.id);
+    await serverRepository.save(serverToCreate);
+    const createdServer = await serverRepository.findOne(serverToCreate.id);
+
+    const membershipRepository = getRepository(Membership)
+
+    const membershipToCreate = membershipRepository.create({userId: id, serverId: createdServer.id})
+
+    await membershipRepository.save(membershipToCreate)
+
     return res.json({ server: createdServer });
   }
 });
@@ -103,6 +111,23 @@ serverRouter.delete("/:id", async (req, res, next) => {
     await repository.remove(userToDelete);
     res.json({ success: true });
   }
+});
+
+//join a server
+serverRouter.post("/join/:id", async (req, res, next) => {
+  const userId = req["user"]["id"];
+  const serverId = req.params.id;
+
+  const repository = getRepository(Membership);
+
+  const membershipToCreate = repository.create({
+    serverId: parseInt(serverId),
+    userId,
+  });
+
+  await repository.save(membershipToCreate)
+
+  res.json({success: true})
 });
 
 export default serverRouter;

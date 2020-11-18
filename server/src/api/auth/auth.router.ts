@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Router } from "express";
 import { getRepository } from "typeorm";
 import { hash, verify } from "argon2";
 import { validate } from "class-validator";
@@ -40,6 +40,7 @@ authRouter.post("/signup", async (req, res, next) => {
     jwt.sign(
       {
         username: user.username,
+        id: user.id
       },
       process.env.TOKEN_SECRET,
       {
@@ -71,6 +72,7 @@ authRouter.post("/signin", async (req, res, next) => {
     jwt.sign(
       {
         username: existingUser.username,
+        id: existingUser.id
       },
       process.env.TOKEN_SECRET,
       {
@@ -88,5 +90,13 @@ authRouter.post("/signin", async (req, res, next) => {
     return next(new Error("Incorrect username or password"));
   }
 });
+
+authRouter.get('/authorize', (req, res, next) => {
+  if(req['user']) {
+    return res.json({user: req['user'] })
+  } else {
+    return res.json({user: null})
+  }
+})
 
 export default authRouter;

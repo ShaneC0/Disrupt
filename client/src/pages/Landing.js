@@ -52,7 +52,7 @@ export default class Landing extends React.Component {
         }
       } else {
         localStorage.token = data.token
-        this.props.history.push('/dump')
+        await this.props.setUser()
       }
     }
   }

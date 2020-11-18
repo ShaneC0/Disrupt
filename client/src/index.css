@@ -99,10 +99,9 @@ form .helper-text {
 
 
 #landing {
-  grid-column-start: 3;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 4;
+  position: absolute;
+  top:0;
+  left:0;
   height: 100%;
   width: 100%;
   background: #2f2f2f;
@@ -112,8 +111,6 @@ form .helper-text {
 }
 
 #landing form {
-  grid-row-start: 3;
-  grid-row-end: 4;
   width: 35%;
 }
 
@@ -146,6 +143,12 @@ form .helper-text {
   height: 50px;
   border-radius: 25px;
   margin: 1vh 0 1vh 0;
+  font-size: 24px;
+  padding: 0;
+}
+
+#server-list button .fas {
+  font-size: 16px;
 }
 
 
@@ -157,7 +160,7 @@ form .helper-text {
 #channel-list {
   grid-column: 2/3;
   grid-row: 1/4;
-  background: #444545;
+  background: #3d3d3d;
   height: 100%;
 }
 
@@ -169,5 +172,6 @@ form .helper-text {
 
 #user-list {
   grid-column: 4/5;
-  grid-row: 1/4
+  grid-row: 1/4;
+  background: #3d3d3d;
 }
