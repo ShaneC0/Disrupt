@@ -51,9 +51,29 @@ export default class Dash extends React.Component {
     }
   }
 
+  async fetchChannels(server) {
+    const response = await fetch(
+      `http://localhost:6969/api/v1/channel/server/${server.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState({ channels: data.channels });
+    }
+  }
+
   async setServer(server) {
     if (this.state.currentServer != server) {
       await this.fetchUsers(server);
+      await this.fetchChannels(server);
       this.setState({ currentServer: server });
     }
   }
@@ -67,7 +87,11 @@ export default class Dash extends React.Component {
       <>
         <ServerList servers={this.state.servers} setServer={this.setServer} />
         {this.state.currentServer ? (
-          <Server server={this.state.currentServer} users={this.state.users} />
+          <Server
+            server={this.state.currentServer}
+            users={this.state.users}
+            channels={this.state.channels}
+          />
         ) : null}
       </>
     );

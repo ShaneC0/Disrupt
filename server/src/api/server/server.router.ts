@@ -1,6 +1,7 @@
 import { validate } from "class-validator";
 import { Router } from "express";
 import { getRepository } from "typeorm";
+import Channel from "../../entity/Channel";
 import Membership from "../../entity/Membership";
 import Server from "../../entity/Server";
 
@@ -84,6 +85,12 @@ serverRouter.post("/create", async (req, res, next) => {
     });
 
     await membershipRepository.save(membershipToCreate);
+
+    const channelRepository = await getRepository(Channel)
+
+    const channelToCreate = await channelRepository.create({name: "General", serverId: createdServer.id})
+
+    await channelRepository.save(channelToCreate)
 
     return res.json({ server: createdServer });
   }

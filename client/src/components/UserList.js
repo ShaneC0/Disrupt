@@ -1,18 +1,19 @@
 import React from "react";
 
 export default function UserList(props) {
-    return (
-      <div id="user-list">
-        <div className="title">
-          <h3>Members</h3>
-        </div>
-        <ul>
-          {props.users ? (
-            props.users.map((user, i) => <li key={i}>{user.username}</li>)
-          ) : (
-            <li>No users loaded</li>
-          )}
-        </ul>
-      </div>
-    );
+  return (
+    <div id="user-list">
+      <ul>
+        {props.users ? (
+          props.users.map((user, i) => (
+            <button className="btn-list" key={i}>
+              <i className="fas fa-circle"></i> {user.username}
+            </button>
+          ))
+        ) : (
+          <li>No users loaded</li>
+        )}
+      </ul>
+    </div>
+  );
 }

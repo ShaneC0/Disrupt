@@ -1,13 +1,31 @@
-import React from 'react';
+import React from "react";
+
+import ServerTitle from "./subcomponents/ServerTitle";
 
 export default function ChannelList(props) {
-    return (
-        <div id="channel-list">
-            <div className="title">
-            <h3>{props.serverName}</h3>
-            </div>
-            <h5>Channels</h5>
-            <p>#General</p>
-        </div>
-    )
+  return (
+    <>
+    <ServerTitle serverName={props.serverName} />
+    <div id="channel-list">
+      
+
+      <div className="subtitle">
+        <h5>Channels</h5>
+        <h5>
+          <i className="fas fa-plus"></i>
+        </h5>
+      </div>
+
+      {props.channels ? (
+        props.channels.map((channel, i) => (
+          <button className="btn-list" key={i}>
+            # {channel.name}
+          </button>
+        ))
+      ) : (
+        <p>No channels</p>
+      )}
+    </div>
+    </>
+  );
 }
