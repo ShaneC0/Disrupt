@@ -1,9 +1,9 @@
 import React from "react";
 
-import ChannelList from "../components/ChannelList";
-import UserList from "../components/UserList";
-import ChannelTitle from "../components/subcomponents/ChannelTitle";
-import UserTitle from "../components/subcomponents/UserTitle";
+import ChannelList from "../components/lists/ChannelList";
+import UserList from "../components/lists/UserList";
+import ChannelTitle from "../components/titles/ChannelTitle";
+import UserTitle from "../components/titles/UserTitle";
 
 export default function Server(props) {
   return (

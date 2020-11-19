@@ -18,12 +18,10 @@ export default function CreateServerForm(props) {
         <input
           type="text"
           onChange={(e) => props.handleChange(e)}
-          name="serverName"
+          name="createServerName"
         />
       </div>
-
-
-      <button onClick={(e) => props.onSubmit(e)}>Submit</button>
+      <button onClick={(e) => props.postServer(e)}>Create</button>
     </form>
   );
 }

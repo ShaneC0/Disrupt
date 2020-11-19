@@ -1,7 +1,7 @@
 import React from "react";
 
-import SignupForm from "../components/SignupForm";
-import SigninForm from "../components/SigninForm";
+import SignupForm from "../components/forms/SignupForm";
+import SigninForm from "../components/forms/SigninForm";
 
 export default class Landing extends React.Component {
   constructor(props) {

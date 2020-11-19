@@ -1,7 +1,7 @@
 import React from "react";
-import CreateServerForm from "../components/CreateServerForm";
+import CreateServerForm from "../components/forms/CreateServerForm";
 
-import ServerList from "../components/ServerList";
+import ServerList from "../components/lists/ServerList";
 import Server from "./Server";
 
 export default class Dash extends React.Component {
@@ -14,9 +14,24 @@ export default class Dash extends React.Component {
       channels: null,
       users: null,
       creatingServer: false,
+      createServerName: "",
+      joinServerCode: "",
+      errors: []
     };
     this.setServer = this.setServer.bind(this);
     this.toggleServerForm = this.toggleServerForm.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+    this.postServer = this.postServer.bind(this)
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value,
+      errors: [],
+    });
   }
 
   async fetchServers() {
@@ -89,6 +104,31 @@ export default class Dash extends React.Component {
     this.setState((state) => ({ creatingServer: !state.creatingServer }));
   }
 
+  async postServer(e) {
+    e.preventDefault()
+    const response = await fetch("http://localhost:6969/api/v1/server/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: JSON.stringify({
+        name: this.state.createServerName,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState((state) => ({
+        servers: [...state.servers, data.server],
+        creatingServer: false,
+      }));
+    }
+  }
+
   render() {
     return (
       <>
@@ -105,7 +145,9 @@ export default class Dash extends React.Component {
             user={this.props.user}
           />
         ) : null}
-        {this.state.creatingServer ? <CreateServerForm errors={[]} /> : null}
+        {this.state.creatingServer ? (
+          <CreateServerForm errors={[]} handleChange={this.handleChange} postServer={this.postServer}/>
+        ) : null}
       </>
     );
   }

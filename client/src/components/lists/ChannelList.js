@@ -1,6 +1,6 @@
 import React from "react";
 
-import ServerTitle from "./subcomponents/ServerTitle";
+import ServerTitle from "../titles/ServerTitle";
 
 export default function ChannelList(props) {
   return (

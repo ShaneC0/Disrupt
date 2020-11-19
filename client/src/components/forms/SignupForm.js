@@ -40,7 +40,7 @@ export default function SignupForm(props) {
         />
       </div>
 
-      <button onClick={(e) => props.onSubmit(e)}>Submit</button>
+      <button onClick={(e) => props.onSubmit(e)}>Sign up</button>
       
       <div className="helper-text">
         <p>Have an account?</p> &nbsp;
