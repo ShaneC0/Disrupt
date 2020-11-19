@@ -10,10 +10,10 @@ export default function ServerList(props) {
             </button>
           ))
         : null}
-      <button>
+      <button onClick={() => props.toggleJoinServer()}>
         <i className="fas fa-link"></i>
       </button>
-      <button onClick={() => props.toggleServerForm()}>
+      <button onClick={() => props.toggleCreateServer()}>
         <i className="fas fa-plus"></i>
       </button>
     </div>

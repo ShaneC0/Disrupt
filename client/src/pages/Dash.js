@@ -1,6 +1,7 @@
 import React from "react";
-import CreateServerForm from "../components/forms/CreateServerForm";
 
+import CreateServerForm from "../components/forms/CreateServerForm";
+import JoinServerForm from "../components/forms/JoinServerForm";
 import ServerList from "../components/lists/ServerList";
 import Server from "./Server";
 
@@ -14,14 +15,17 @@ export default class Dash extends React.Component {
       channels: null,
       users: null,
       creatingServer: false,
+      joiningServer: false,
       createServerName: "",
       joinServerCode: "",
-      errors: []
+      errors: [],
     };
     this.setServer = this.setServer.bind(this);
-    this.toggleServerForm = this.toggleServerForm.bind(this);
-    this.handleChange = this.handleChange.bind(this)
-    this.postServer = this.postServer.bind(this)
+    this.toggleCreateServer = this.toggleCreateServer.bind(this);
+    this.toggleJoinServer = this.toggleJoinServer.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.postServer = this.postServer.bind(this);
+    this.joinServer = this.joinServer.bind(this);
   }
 
   handleChange(event) {
@@ -100,12 +104,16 @@ export default class Dash extends React.Component {
     await this.fetchServers();
   }
 
-  toggleServerForm() {
+  toggleCreateServer() {
     this.setState((state) => ({ creatingServer: !state.creatingServer }));
+  }
+  
+  toggleJoinServer() {
+    this.setState((state) => ({ joiningServer: !state.joiningServer }));
   }
 
   async postServer(e) {
-    e.preventDefault()
+    e.preventDefault();
     const response = await fetch("http://localhost:6969/api/v1/server/create", {
       method: "POST",
       headers: {
@@ -120,7 +128,11 @@ export default class Dash extends React.Component {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error(data);
+      if (data.validationErrors !== null || undefined) {
+        this.setState({ errors: data.validationErrors });
+      } else {
+        this.setState({ errors: [data.message] });
+      }
     } else {
       this.setState((state) => ({
         servers: [...state.servers, data.server],
@@ -129,13 +141,18 @@ export default class Dash extends React.Component {
     }
   }
 
+  async joinServer(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <>
         <ServerList
           servers={this.state.servers}
           setServer={this.setServer}
-          toggleServerForm={this.toggleServerForm}
+          toggleCreateServer={this.toggleCreateServer}
+          toggleJoinServer={this.toggleJoinServer}
         />
         {this.state.currentServer ? (
           <Server
@@ -146,7 +163,18 @@ export default class Dash extends React.Component {
           />
         ) : null}
         {this.state.creatingServer ? (
-          <CreateServerForm errors={[]} handleChange={this.handleChange} postServer={this.postServer}/>
+          <CreateServerForm
+            errors={this.state.errors}
+            handleChange={this.handleChange}
+            postServer={this.postServer}
+          />
+        ) : null}
+        {this.state.joiningServer ? (
+          <JoinServerForm
+            errors={this.state.errors}
+            handleChange={this.handleChange}
+            joinServer={this.joinServer}
+          />
         ) : null}
       </>
     );

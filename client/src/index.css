@@ -185,12 +185,12 @@ form .helper-text {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
 }
 
 #channel-title h4 {
-  margin-left: 2vw;
+  margin: 0 2vw 0 2vw;
 }
 
 /* SERVER PAGE  */

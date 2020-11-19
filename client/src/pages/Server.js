@@ -9,7 +9,7 @@ export default function Server(props) {
   return (
     <>
       <UserTitle user={props.user}/>
-      <ChannelTitle />
+      <ChannelTitle serverId={props.server.id}/>
       <ChannelList serverName={props.server.name} channels={props.channels} />
 
       <UserList users={props.users} />
