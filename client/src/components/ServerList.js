@@ -10,7 +10,7 @@ export default function ServerList(props) {
             </button>
           ))
         : null}
-      <button>
+      <button onClick={() => props.toggleServerForm()}>
         <i className="fas fa-plus"></i>
       </button>
     </div>

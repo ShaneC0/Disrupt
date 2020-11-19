@@ -231,3 +231,39 @@ form .helper-text {
 .btn-list:hover {
   background: #444545;
 }
+
+
+
+/* USER THING AT THE BOTTOM OF CHANNEL LIST */
+
+
+
+#user-title {
+  width: 100%;
+  height: 100%;
+  background: #3d3d3d;
+  border-right: 1px solid #2f2f2f;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+#user-title h3 {
+  margin-left: 5%;
+}
+
+
+
+/* STYLING FOR CREATE SERVER */
+
+
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f3f9d2;
+  color: #2f2f2f;
+  width: 40vw;
+}

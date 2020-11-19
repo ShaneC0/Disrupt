@@ -41,7 +41,7 @@ export default class App extends React.Component {
     return (
       <>
         {this.state.user ? (
-          <Dash />
+          <Dash user={this.state.user} />
         ) : (
           <Landing setUser={this.setUser} />
         )}
