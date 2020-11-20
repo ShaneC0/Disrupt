@@ -105,11 +105,17 @@ export default class Dash extends React.Component {
   }
 
   toggleCreateServer() {
-    this.setState((state) => ({ creatingServer: !state.creatingServer }));
+    this.setState((state) => ({
+      creatingServer: !state.creatingServer,
+      errors: [],
+    }));
   }
-  
+
   toggleJoinServer() {
-    this.setState((state) => ({ joiningServer: !state.joiningServer }));
+    this.setState((state) => ({
+      joiningServer: !state.joiningServer,
+      errors: [],
+    }));
   }
 
   async postServer(e) {
@@ -143,6 +149,42 @@ export default class Dash extends React.Component {
 
   async joinServer(e) {
     e.preventDefault();
+
+    const joinResponse = await fetch(
+      `http://localhost:6969/api/v1/server/join/${this.state.joinServerCode}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
+
+    const data = await joinResponse.json();
+
+    if (!joinResponse.ok) {
+      console.error(data);
+    } else {
+      const serverResponse = await fetch(
+        `http://localhost:6969/api/v1/server/details/${this.state.joinServerCode}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+        }
+      );
+
+      const serverData = await serverResponse.json();
+
+      if (!serverResponse.ok) {
+        console.error(data);
+      } else {
+        this.setState((state) => ({
+          servers: [...state.servers, serverData.server],
+          joiningServer: false,
+        }));
+      }
+    }
   }
 
   render() {

@@ -16,7 +16,7 @@ serverRouter.get("/all", async (req, res, next) => {
 
 //get a server by its id
 serverRouter.get("/details/:id", async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const repository = getRepository(Server);
   const server = await repository.findOne(id);
   if (!server) {
@@ -86,11 +86,14 @@ serverRouter.post("/create", async (req, res, next) => {
 
     await membershipRepository.save(membershipToCreate);
 
-    const channelRepository = await getRepository(Channel)
+    const channelRepository = await getRepository(Channel);
 
-    const channelToCreate = await channelRepository.create({name: "General", serverId: createdServer.id})
+    const channelToCreate = await channelRepository.create({
+      name: "General",
+      serverId: createdServer.id,
+    });
 
-    await channelRepository.save(channelToCreate)
+    await channelRepository.save(channelToCreate);
 
     return res.json({ server: createdServer });
   }
@@ -130,14 +133,27 @@ serverRouter.post("/join/:id", async (req, res, next) => {
 
   const repository = getRepository(Membership);
 
-  const membershipToCreate = repository.create({
-    serverId: parseInt(serverId),
-    userId,
-  });
+  const existingMembership = await repository
+    .createQueryBuilder("membership")
+    .where("membership.userId = :userId", { userId })
+    .andWhere("membership.serverId = :serverId", { serverId })
+    .getOne()
 
-  await repository.save(membershipToCreate);
 
-  res.json({ success: true });
+  if(!existingMembership) {
+    const membershipToCreate = repository.create({
+      serverId: parseInt(serverId),
+      userId,
+    });
+  
+    await repository.save(membershipToCreate);
+  
+    res.json({ success: true });
+  } else {
+    return next(new Error("Already in this server"))
+  }
+
+
 });
 
 //find all users in a server
@@ -148,7 +164,7 @@ serverRouter.get("/users/:id", async (req, res, next) => {
   const memberships = await repository
     .createQueryBuilder("membership")
     .leftJoinAndSelect("membership.user", "user")
-    .where("membership.serverId = :id", {id})
+    .where("membership.serverId = :id", { id })
     .getMany();
 
   const users = memberships.map((membership) => membership.user);
