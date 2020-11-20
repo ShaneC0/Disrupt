@@ -152,7 +152,9 @@ serverRouter.post("/join/:id", async (req, res, next) => {
 
       await repository.save(membershipToCreate);
 
-      res.json({ success: true });
+      const server = await getRepository(Server).findOne(serverId)
+
+      return res.json({ server });
     } else {
       return next(new Error("Already in this server"));
     }

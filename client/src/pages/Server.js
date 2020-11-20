@@ -7,8 +7,6 @@ import ServerTitle from "../components/titles/ServerTitle";
 import ChannelTitle from "../components/titles/ChannelTitle"
 import UserTitle from "../components/titles/UserTitle";
 
-import CreateServerForm from "../components/forms/CreateServerForm"
-
 export default class Server extends React.Component {
   //stores server data i.e. users, channels
   //contains the channel list, user list
@@ -19,8 +17,11 @@ export default class Server extends React.Component {
 
     this.state = {
       channels: null,
+      currentChannel: null,
       users: null,
     };
+
+    this.setChannel = this.setChannel.bind(this)
   }
 
   async fetchChannels() {
@@ -73,13 +74,17 @@ export default class Server extends React.Component {
     }
   }
 
+  setChannel(channel) {
+    this.setState({currentChannel: channel})
+  }
+
   render() {
     return (
         <>
         <ServerTitle serverName={this.props.server.name} />
-        <ChannelTitle serverId={this.props.server.id}/>  
+        <ChannelTitle serverId={this.props.server.id} channelName={this.state.currentChannel ? this.state.currentChannel.name : ""} />  
         <UserTitle username={this.props.username} />
-        {this.state.channels ? <ChannelList channels={this.state.channels} /> : null}
+        {this.state.channels ? <ChannelList channels={this.state.channels} setChannel={this.setChannel} /> : null}
         {this.state.users ? <UserList users={this.state.users} /> : null}
         </>
     )

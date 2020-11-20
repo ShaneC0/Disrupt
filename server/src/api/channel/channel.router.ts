@@ -1,7 +1,9 @@
+import { validate } from "class-validator";
 import { Router } from "express";
 import { getRepository } from "typeorm";
 
 import Channel from "../../entity/Channel";
+import Server from "../../entity/Server";
 
 const channelRouter = Router();
 
@@ -38,6 +40,32 @@ channelRouter.get("/server/:id", async (req, res, next) => {
     return next();
   } else {
     return res.json({ channels });
+  }
+});
+
+channelRouter.post("/create", async (req, res, next) => {
+  const { name, serverId } = req.body;
+  const repository = getRepository(Channel);
+
+  const channelToCreate = repository.create({
+    name,
+    serverId,
+  });
+
+  const errors = await validate(channelToCreate);
+
+  if (errors.length > 0) {
+    return next(errors);
+  } else {
+    await repository.save(channelToCreate);
+
+    const createdChannel = await repository
+      .createQueryBuilder("channel")
+      .where("channel.name = :name", { name })
+      .andWhere("channel.serverId = :serverId", { serverId })
+      .getOne()
+
+    res.json({ channel: createdChannel });
   }
 });
 

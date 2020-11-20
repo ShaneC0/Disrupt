@@ -182,7 +182,12 @@ form .helper-text {
   border-bottom: 1px solid #2f2f2f;
 }
 
-
+#channel-list .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1vh 1vw 1vh 1vw;
+}
 
 
 /* USER LIST  */
@@ -209,9 +214,14 @@ form .helper-text {
   background: #3a3a3a;
   border-right: 1px solid #2f2f2f;
   border-bottom: 1px solid #2f2f2f;
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
-
+#server-title * {
+  margin: 0 2vw 0 2vw;
+}
 
 
 
@@ -229,6 +239,10 @@ form .helper-text {
   align-items: center;
 }
 
+#channel-title * {
+  margin: 0 2vw 0 2vw;
+}
+
 
 
 /* USER TITLE */
@@ -240,9 +254,14 @@ form .helper-text {
   background: #3a3a3a;
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
-
+#user-title * {
+  margin: 0 0 0 1vw;
+}
 
 /* MODAL FORMS  */
 

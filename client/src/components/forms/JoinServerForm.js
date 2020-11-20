@@ -21,7 +21,7 @@ export default function JoinServerForm(props) {
           name="joinServerCode"
         />
       </div>
-      <button>Join</button>
+      <button onClick={(e) => props.submit(e)} >Join</button>
     </form>
   );
 }
