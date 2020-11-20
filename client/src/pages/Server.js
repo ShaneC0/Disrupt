@@ -1,6 +1,13 @@
 import React from "react";
+
 import ChannelList from "../components/lists/ChannelList";
 import UserList from "../components/lists/UserList";
+
+import ServerTitle from "../components/titles/ServerTitle";
+import ChannelTitle from "../components/titles/ChannelTitle"
+import UserTitle from "../components/titles/UserTitle";
+
+import CreateServerForm from "../components/forms/CreateServerForm"
 
 export default class Server extends React.Component {
   //stores server data i.e. users, channels
@@ -69,7 +76,9 @@ export default class Server extends React.Component {
   render() {
     return (
         <>
-        <h1>{this.props.server.name}</h1>
+        <ServerTitle serverName={this.props.server.name} />
+        <ChannelTitle serverId={this.props.server.id}/>  
+        <UserTitle username={this.props.username} />
         {this.state.channels ? <ChannelList channels={this.state.channels} /> : null}
         {this.state.users ? <UserList users={this.state.users} /> : null}
         </>

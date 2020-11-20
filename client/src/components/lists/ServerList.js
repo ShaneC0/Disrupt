@@ -2,6 +2,7 @@ import React from "react";
 
 export default function ServerList(props) {
   //displays a list of servers
+  //has buttons to toggle create and join server forms on main component
   //takes in a list of servers as props
 
   return (
@@ -22,10 +23,10 @@ export default function ServerList(props) {
             </button>
           ))
         : null}
-      <button>
+      <button onClick={() => props.toggleJoinForm()}>
         <i className="fas fa-link"></i>
       </button>
-      <button>
+      <button onClick={() => props.toggleCreateForm()}>
         <i className="fas fa-plus"></i>
       </button>
     </div>
