@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function CreateServerForm(props) {
+export default function JoinServerForm(props) {
   return (
     <form className="modal">
-      <h2>Join a server</h2>
+      <h2>Join server</h2>
 
       {props.errors.length > 0 ? (
         <div className="error-group">
@@ -21,7 +21,7 @@ export default function CreateServerForm(props) {
           name="joinServerCode"
         />
       </div>
-      <button onClick={(e) => props.joinServer(e)}>Create</button>
+      <button onClick={(e) => props.submit(e)} >Join</button>
     </form>
   );
 }

@@ -116,15 +116,35 @@ form .helper-text {
   cursor: pointer;
 }
 
+
+/* STYLES FOR LIST ITEMS  */
+.btn-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-list button {
+  background: #3a3a3a;
+  width: 90%;
+  text-align: left;
+}
+
+.btn-list button:hover {
+  background: #444545;
+}
+
+
+
+
 /* SERVER LIST */
 
 #server-list {
-  grid-column-start: 1;
-  grid-row-start: 1;
-  grid-row-end: 4;
+  grid-row: 1/4;
+  grid-column: 1/2;
   background: #2f2f2f;
   height: 100%;
-  width: 5vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,130 +152,118 @@ form .helper-text {
 
 #server-list button {
   background: #444545;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
   margin: 1vh 0 1vh 0;
-  font-size: 24px;
-  padding: 0;
 }
 
-#server-list button .fas {
-  font-size: 16px;
+#server-list button:hover {
+  background: #f3f9d2;
+  color: #444545;
 }
 
-/* CHANNEL LIST */
+#server-list .active {
+  background: #f3f9d2;
+  color: #444545;
+}
 
-#channel-list {
-  grid-row: 2;
-  grid-column:2/3;
+/* CHANNEL LIST  */
+
+
+
+#channel-list{ 
+  grid-row: 2/3;
+  grid-column: 2/3;
   height: 100%;
+  width: 100%;
+  background: #3a3a3a;
   border-right: 1px solid #2f2f2f;
   border-bottom: 1px solid #2f2f2f;
-  background: #3d3d3d;
 }
 
-#channel-list h5 {
-  margin: 1vh 1vw;
-  color: #acacac;
-  font-size: 16px;
-}
-
-
-/* USER LIST */
-
-#user-list {
-  grid-column: 4/5;
-  grid-row: 2/4;
-  background: #3d3d3d;
-}
-
-.subtitle {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* CHANNEL HEADER  */
-
-#channel-title {
-  border-bottom: 1px solid #2f2f2f;
-  background: #3d3d3d;
-  grid-row: 1;
-  grid-column: 3/5;
-  width: 100%;
-  height: 100%;
+#channel-list .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1vh 1vw 1vh 1vw;
 }
 
-#channel-title h4 {
-  margin: 0 2vw 0 2vw;
+
+/* USER LIST  */
+
+#user-list {
+  grid-row: 2/4;
+  grid-column: 4/5;
+  background: #3a3a3a;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid #2f2f2f;
 }
 
-/* SERVER PAGE  */
 
-#server {
-  grid-row: 2;
-  grid-column: 3/4;
-}
 
-/* CHANNEL LIST HEADER  */
+
+
+/* SERVER TITLE  */
 #server-title {
   grid-row: 1/2;
   grid-column: 2/3;
-  width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  background: #3d3d3d;
+  width: 100%;
+  background: #3a3a3a;
   border-right: 1px solid #2f2f2f;
   border-bottom: 1px solid #2f2f2f;
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
-#server-title h3 {
-  margin-left: 1vw;
-}
-
-/* LIST BUTTON STYLES  */
-
-.btn-list {
-  width: 90%;
-  font-size: 16px;
-  background: #3d3d3d;
-  text-align: left;
-  margin-left: 5%;
-}
-
-.btn-list:hover {
-  background: #444545;
+#server-title * {
+  margin: 0 2vw 0 2vw;
 }
 
 
 
-/* USER THING AT THE BOTTOM OF CHANNEL LIST */
+/* CHANNEL TITLE  */
 
+#channel-title {
+  grid-row: 1/2;
+  grid-column: 3/5;
+  width: 100%;
+  height: 100%;
+  background: #3a3a3a;
+  border-bottom: 1px solid #2f2f2f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#channel-title * {
+  margin: 0 2vw 0 2vw;
+}
+
+
+
+/* USER TITLE */
 
 
 #user-title {
-  width: 100%;
+  grid-row: 3/4;
+  grid-column: 2/3;
+  background: #3a3a3a;
   height: 100%;
-  background: #3d3d3d;
-  border-right: 1px solid #2f2f2f;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: left;
+  align-items: center;
 }
 
-#user-title h3 {
-  margin-left: 5%;
+#user-title * {
+  margin: 0 0 0 1vw;
 }
 
-
-
-/* STYLING FOR CREATE SERVER */
-
+/* MODAL FORMS  */
 
 
 .modal {
@@ -265,5 +273,5 @@ form .helper-text {
   transform: translate(-50%, -50%);
   background: #f3f9d2;
   color: #2f2f2f;
-  width: 40vw;
+  width: 40%;
 }

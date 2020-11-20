@@ -3,7 +3,7 @@ import React from "react";
 export default function CreateServerForm(props) {
   return (
     <form className="modal">
-      <h2>Create a server</h2>
+      <h2>Create server</h2>
 
       {props.errors.length > 0 ? (
         <div className="error-group">
@@ -21,7 +21,7 @@ export default function CreateServerForm(props) {
           name="createServerName"
         />
       </div>
-      <button onClick={(e) => props.postServer(e)}>Create</button>
+      <button onClick={(e) => props.submit(e)}>Create</button>
     </form>
   );
 }

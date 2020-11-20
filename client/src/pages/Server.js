@@ -2,18 +2,91 @@ import React from "react";
 
 import ChannelList from "../components/lists/ChannelList";
 import UserList from "../components/lists/UserList";
-import ChannelTitle from "../components/titles/ChannelTitle";
+
+import ServerTitle from "../components/titles/ServerTitle";
+import ChannelTitle from "../components/titles/ChannelTitle"
 import UserTitle from "../components/titles/UserTitle";
 
-export default function Server(props) {
-  return (
-    <>
-      <UserTitle user={props.user}/>
-      <ChannelTitle serverId={props.server.id}/>
-      <ChannelList serverName={props.server.name} channels={props.channels} />
+export default class Server extends React.Component {
+  //stores server data i.e. users, channels
+  //contains the channel list, user list
+  //takes a server as prop
 
-      <UserList users={props.users} />
-      <div id="server">Hey</div>
-    </>
-  );
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      channels: null,
+      currentChannel: null,
+      users: null,
+    };
+
+    this.setChannel = this.setChannel.bind(this)
+  }
+
+  async fetchChannels() {
+    const response = await fetch(
+      `http://localhost:6969/api/v1/channel/server/${this.props.server.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState({ channels: data.channels });
+    }
+  }
+
+  async fetchUsers() {
+    const response = await fetch(
+      `http://localhost:6969/api/v1/server/users/${this.props.server.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data);
+    } else {
+      this.setState({ users: data.users });
+    }
+  }
+
+  async componentDidMount() {
+    await this.fetchChannels();
+    await this.fetchUsers();
+  }
+
+  async componentDidUpdate(prevProps) {
+    if(this.props.server !== prevProps.server) {
+        await this.fetchChannels()
+        await this.fetchUsers()
+    }
+  }
+
+  setChannel(channel) {
+    this.setState({currentChannel: channel})
+  }
+
+  render() {
+    return (
+        <>
+        <ServerTitle serverName={this.props.server.name} />
+        <ChannelTitle serverId={this.props.server.id} channelName={this.state.currentChannel ? this.state.currentChannel.name : ""} />  
+        <UserTitle username={this.props.username} />
+        {this.state.channels ? <ChannelList channels={this.state.channels} setChannel={this.setChannel} /> : null}
+        {this.state.users ? <UserList users={this.state.users} /> : null}
+        </>
+    )
+  }
 }

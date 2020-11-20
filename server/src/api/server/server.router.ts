@@ -117,11 +117,11 @@ serverRouter.patch("/:id", async (req, res, next) => {
 serverRouter.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   const repository = getRepository(Server);
-  const userToDelete = await repository.findOne(id);
-  if (!userToDelete) {
+  const serverToDelete = await repository.findOne(id);
+  if (!serverToDelete) {
     return next();
   } else {
-    await repository.remove(userToDelete);
+    await repository.remove(serverToDelete);
     res.json({ success: true });
   }
 });
@@ -131,29 +131,34 @@ serverRouter.post("/join/:id", async (req, res, next) => {
   const userId = req["user"]["id"];
   const serverId = req.params.id;
 
-  const repository = getRepository(Membership);
+  const existingServer = await getRepository(Server).findOne(serverId);
 
-  const existingMembership = await repository
-    .createQueryBuilder("membership")
-    .where("membership.userId = :userId", { userId })
-    .andWhere("membership.serverId = :serverId", { serverId })
-    .getOne()
-
-
-  if(!existingMembership) {
-    const membershipToCreate = repository.create({
-      serverId: parseInt(serverId),
-      userId,
-    });
-  
-    await repository.save(membershipToCreate);
-  
-    res.json({ success: true });
+  if (!existingServer) {
+    return next(new Error("Server doesn't exist"));
   } else {
-    return next(new Error("Already in this server"))
+    const repository = getRepository(Membership);
+
+    const existingMembership = await repository
+      .createQueryBuilder("membership")
+      .where("membership.userId = :userId", { userId })
+      .andWhere("membership.serverId = :serverId", { serverId })
+      .getOne();
+
+    if (!existingMembership) {
+      const membershipToCreate = repository.create({
+        serverId: parseInt(serverId),
+        userId,
+      });
+
+      await repository.save(membershipToCreate);
+
+      const server = await getRepository(Server).findOne(serverId)
+
+      return res.json({ server });
+    } else {
+      return next(new Error("Already in this server"));
+    }
   }
-
-
 });
 
 //find all users in a server

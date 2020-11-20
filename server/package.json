@@ -1,7 +1,7 @@
 {
-   "name": "new-typeorm-project",
+   "name": "disrupt-server",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "Express/Socket.io server for disrupt.",
    "devDependencies": {
       "@types/express": "^4.17.9",
       "@types/node": "^8.0.29",

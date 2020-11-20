@@ -1,10 +1,13 @@
-import React from "react";
+import React from "react"
 
 export default function ChannelTitle(props) {
-  return (
-    <div id="channel-title">
-        <h4># Channel Name</h4>
-        <h4>Join Code: {props.serverId}</h4>
-    </div>
-  );
+    //displays channel title from props
+
+
+    return (
+        <div id="channel-title">
+            <h3># {props.channelName}</h3>
+    <h3>JOIN CODE: {props.serverId}</h3>
+        </div>
+    )
 }
