@@ -1,7 +1,7 @@
 import React from "react";
 
 import Landing from "./pages/Landing";
-import Dash from "./pages/Dash";
+import Main from "./pages/Main"
 
 export default class App extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ export default class App extends React.Component {
     return (
       <>
         {this.state.user ? (
-          <Dash user={this.state.user} />
+          <Main user={this.state.user}/>
         ) : (
           <Landing setUser={this.setUser} />
         )}
