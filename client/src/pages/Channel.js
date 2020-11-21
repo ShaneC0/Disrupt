@@ -45,7 +45,16 @@ export default class Channel extends React.Component {
     if (!response.ok) {
       console.error(data);
     } else {
-      this.setState({ messages: data.messages.reverse() });
+
+      data.messages.sort((a, b) => {
+        let c = new Date(a.createDate)
+        let d = new Date(b.createDate)
+        return c - d
+      })
+
+      this.setState({
+        messages: data.messages,
+      });
     }
   }
 
@@ -78,24 +87,19 @@ export default class Channel extends React.Component {
       }));
     }
 
-    socket.emit('message', data.message)
-
-    //api request to create message
-    //push to local state
-    //emit message
+    socket.emit("message", data.message);
   }
 
   async componentDidMount() {
     socket = io.connect("http://localhost:6969");
 
-    socket.on('message', message => {
-      if(message.channelId === this.props.channel.id) {
-        this.setState(state => ({messages: [...state.messages, message]}))
+    socket.on("message", (message) => {
+      if (message.channelId === this.props.channel.id) {
+        this.setState((state) => ({ messages: [...state.messages, message] }));
       }
-    })
+    });
 
     await this.fetchMessages();
-
 
     //this makes the scroll of the message list default to the bottom
     var messages = document.querySelector("#message-list");
