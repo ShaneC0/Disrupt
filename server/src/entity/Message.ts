@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsString, Length } from "class-validator";
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from "typeorm";
-import Message from "./Message";
-import Server from "./Server";
+import Channel from "./Channel";
 import User from "./User";
 
+
 @Entity()
-export default class Channel {
+export default class Message {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,8 +13,8 @@ export default class Channel {
     @Column()
     @IsNotEmpty()
     @IsString()
-    @Length(1, 255)
-    name: string;
+    @Length(2, 40)
+    text: string;
 
     @CreateDateColumn()
     createDate: Date;
@@ -22,14 +22,16 @@ export default class Channel {
     @UpdateDateColumn()
     updateDate: Date;
 
-    @ManyToOne(() => Server, server => server.channels)
-    server: Server
+    @Column()
+    userId: number;
 
     @Column()
-    serverId: number;
+    channelId: number;
 
-    @OneToMany(() => Message, message => message.channel)
-    messages: Message[]
+    @ManyToOne(() => Channel, channel => channel.messages)
+    channel: Channel
 
+    @ManyToOne(() => User, user => user.messages)
+    user: User;
 }
 

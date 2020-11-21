@@ -2,6 +2,9 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express from "express";
 import morgan from "morgan";
+import { createServer } from "http"
+import { Server } from "socket.io"
+
 
 import {
   checkTokenSetUser,
@@ -11,6 +14,17 @@ import {
 import apiRouter from "./api/api.router";
 
 const app: express.Application = express();
+const server = createServer(app)
+const io = new Server(server)
+
+io.on("connection", socket => {
+  console.log("A user connected")
+
+  socket.on('message', message => {
+    console.log(message)
+  })
+})
+
 
 app.use(express.json());
 
@@ -22,7 +36,7 @@ app.use(notFound);
 
 app.use(errorHandler);
 
-app.listen(process.env.PORT, async () => {
+server.listen(process.env.PORT, async () => {
   const connection = await createConnection();
 
   if (connection.isConnected) {

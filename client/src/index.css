@@ -189,6 +189,14 @@ form .helper-text {
   margin: 1vh 1vw 1vh 1vw;
 }
 
+#channel-list-btn {
+  background: #3a3a3a;
+}
+
+#channel-list-btn:hover {
+  background: #444545;
+}
+
 
 /* USER LIST  */
 
@@ -274,4 +282,72 @@ form .helper-text {
   background: #f3f9d2;
   color: #2f2f2f;
   width: 40%;
+}
+
+
+/* CHANNEL PAGE  */
+
+
+
+
+/* MESSAGE FORM  */
+
+#message-form {
+  grid-row: 3/4;
+  grid-column: 3/4;
+  box-shadow: none;
+  border-radius: 0;
+  flex-direction: row;
+  align-items: top;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  background: #3a3a3a;
+  border: 1px solid #2f2f2f;
+}
+
+#message-form button {
+  width: 10%;
+  padding: 1vh 0.5vw 1vh 0.5vw;
+  margin: 0 2vw 0 0.5vw;
+}
+
+#message-form input {
+  background: #444545;
+  border: 1px solid black;
+  width: 90%;
+  color: #f3f9d2;
+  font-size: 18px;
+  padding: 0.5vh 1vw 0.5vh 1vw;
+  margin: 0 0.5vw 0 2vw;
+}
+
+/* MESSAGE LIST  */
+
+#message-list {
+  grid-row: 2/3;
+  grid-column: 3/4;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+/* MESSAGE IN LIST  */
+
+.message {
+  border-bottom: 1px solid #2f2f2f;
+  padding: 1vh 1vw 1vh 1vw;
+}
+
+.message h4 {
+  color: #6a8eae;
+}
+
+.message .message-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vh;
 }
