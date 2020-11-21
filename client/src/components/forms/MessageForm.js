@@ -8,8 +8,16 @@ export default function MessageForm(props) {
         onChange={(e) => props.handleChange(e)}
         name="message"
         placeholder="Type a message here to start chatting!"
+        id="messageInput"
       />
-      <button onClick={(e) => props.submit(e)}>Send</button>
+      <button
+        onClick={(e) => {
+          props.submit(e);
+          document.getElementById("messageInput").value = "";
+        }}
+      >
+        Send
+      </button>
     </form>
   );
 }
