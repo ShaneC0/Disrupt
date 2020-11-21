@@ -78,6 +78,8 @@ export default class Channel extends React.Component {
       }));
     }
 
+    socket.emit('message', data.message)
+
     //api request to create message
     //push to local state
     //emit message
@@ -85,6 +87,12 @@ export default class Channel extends React.Component {
 
   async componentDidMount() {
     socket = io.connect("http://localhost:6969");
+
+    socket.on('message', message => {
+      if(message.channelId === this.props.channel.id) {
+        this.setState(state => ({messages: [...state.messages, message]}))
+      }
+    })
 
     await this.fetchMessages();
 

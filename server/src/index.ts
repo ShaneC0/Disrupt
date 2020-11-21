@@ -20,8 +20,8 @@ const io = new Server(server)
 io.on("connection", socket => {
   console.log("A user connected")
 
-  socket.on('message', message => {
-    console.log(message)
+  socket.on('message', data => {
+    socket.broadcast.emit('message', data)
   })
 })
 

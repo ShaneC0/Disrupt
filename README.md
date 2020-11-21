@@ -9,6 +9,7 @@
  - JavaScript
  - Electron
  - React
+ - Socket.IO-Client
 
 ## Backend 
  - TypeScript
@@ -17,3 +18,4 @@
  - JSON Web Token
  - TypeORM
  - PostgreSQL
+ - Socket.IO
