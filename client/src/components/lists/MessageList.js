@@ -18,7 +18,9 @@ export default function MessageList(props) {
           </div>
         ))
       ) : (
-        <h1>no messages</h1>
+        <div id="message-helper">
+          <h1>No messages yet. Be the first!</h1>
+        </div>
       )}
     </div>
   );

@@ -23,6 +23,10 @@ io.on("connection", socket => {
   socket.on('message', data => {
     socket.broadcast.emit('message', data)
   })
+
+  socket.on('new-channel', data => {
+    socket.broadcast.emit('new-channel', data)
+  })
 })
 
 

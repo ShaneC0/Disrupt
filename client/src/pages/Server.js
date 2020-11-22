@@ -9,6 +9,10 @@ import ServerTitle from "../components/titles/ServerTitle";
 import ChannelTitle from "../components/titles/ChannelTitle";
 import UserTitle from "../components/titles/UserTitle";
 import CreateChannelForm from "../components/forms/CreateChannelForm";
+import io from "socket.io-client"
+
+let socket
+
 
 export default class Server extends React.Component {
   //stores server data i.e. users, channels
@@ -87,6 +91,11 @@ export default class Server extends React.Component {
   async componentDidMount() {
     await this.fetchChannels();
     await this.fetchUsers();
+    socket = io.connect('http://localhost:6969')
+
+    socket.on('new-channel', data => {
+      this.setState(state => ({channels: [...state.channels, data]}))
+    })
   }
 
   async componentDidUpdate(prevProps) {
@@ -131,6 +140,8 @@ export default class Server extends React.Component {
         channels: [...state.channels, data.channel],
         creatingChannel: false,
       }));
+
+      socket.emit('new-channel', data.channel)
     }
   }
 

@@ -282,6 +282,7 @@ form .helper-text {
   background: #f3f9d2;
   color: #2f2f2f;
   width: 40%;
+  z-index: 5;
 }
 
 
@@ -350,4 +351,42 @@ form .helper-text {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1vh;
+}
+
+
+
+
+/* HELPER TEXT ON LANDING  */
+
+#landing-helper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#landing-helper h1 {
+  font-size: 96px;
+}
+
+#landing-helper h3 {
+  font-size: 64px;
+}
+
+#landing-helper p {
+  font-size: 32px;
+}
+
+
+
+
+/* EMPTY MESSAGE LIST TEXT  */
+
+#message-helper {
+  color: #2f2f2f;
 }

@@ -31,7 +31,7 @@ export default class Main extends React.Component {
     this.toggleCreateServerForm = this.toggleCreateServerForm.bind(this);
     this.toggleJoinServerForm = this.toggleJoinServerForm.bind(this);
     this.createServer = this.createServer.bind(this);
-    this.joinServer = this.joinServer.bind(this)
+    this.joinServer = this.joinServer.bind(this);
   }
 
   handleChange(event) {
@@ -98,7 +98,11 @@ export default class Main extends React.Component {
         this.setState({ errors: [data.message] });
       }
     } else {
-      this.setState((state) => ({ servers: [...state.servers, data.server], creatingServer: false }));
+      this.setState((state) => ({
+        servers: [...state.servers, data.server],
+        creatingServer: false,
+        currentServer: data.server,
+      }));
     }
   }
 
@@ -110,29 +114,36 @@ export default class Main extends React.Component {
   }
 
   async joinServer(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const response = await fetch(`http://localhost:6969/api/v1/server/join/${this.state.joinServerCode}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`
+    const response = await fetch(
+      `http://localhost:6969/api/v1/server/join/${this.state.joinServerCode}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
       }
-    })
+    );
 
-    const data = await response.json()
+    const data = await response.json();
 
-    if(!response.ok) {
+    if (!response.ok) {
       if (data.validationErrors !== null || undefined) {
         this.setState({ errors: data.validationErrors });
       } else {
-        if(data.message.includes("Not found")) {
-          this.setState({errors: ["Provide a join code"]})
+        if (data.message.includes("Not found")) {
+          this.setState({ errors: ["Provide a join code"] });
         } else {
           this.setState({ errors: [data.message] });
         }
       }
     } else {
-      this.setState(state => ({servers: [...state.servers, data.server], joiningServer: false}))
+      this.setState((state) => ({
+        servers: [...state.servers, data.server],
+        joiningServer: false,
+        currentServer: data.server,
+      }));
     }
   }
 
@@ -169,7 +180,11 @@ export default class Main extends React.Component {
             username={this.props.user.username}
           />
         ) : (
-          <h1>pick a server idiot</h1>
+          <div id="landing-helper">
+            <h1>Hey {this.props.user.username}!</h1>
+            <h3>Welcome to Disrupt</h3>
+            <p>Create or join a server with the icons on the left to start chatting!</p>
+          </div>
         )}
       </>
     );
