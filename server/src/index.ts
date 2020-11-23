@@ -18,8 +18,6 @@ const server = createServer(app)
 const io = new Server(server)
 
 io.on("connection", socket => {
-  console.log("A user connected")
-
   socket.on('message', data => {
     socket.broadcast.emit('message', data)
   })

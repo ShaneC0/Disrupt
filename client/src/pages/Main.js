@@ -177,7 +177,7 @@ export default class Main extends React.Component {
         {this.state.currentServer ? (
           <Server
             server={this.state.currentServer}
-            username={this.props.user.username}
+            user={this.props.user}
           />
         ) : (
           <div id="landing-helper">

@@ -166,7 +166,11 @@ export default class Server extends React.Component {
             this.state.currentChannel ? this.state.currentChannel.name : ""
           }
         />
-        <UserTitle username={this.props.username} />
+
+
+        <UserTitle username={this.props.user.username} />
+
+
         {this.state.channels ? (
           <ChannelList
             channels={this.state.channels}

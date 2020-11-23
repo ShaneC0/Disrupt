@@ -2,6 +2,17 @@
 
 > Real time chat desktop app built with Electron and React
 
+
+# Features
+ - Real-time chat.
+ - Servers
+ - Channels
+
+
+# Why should I use this?
+ - As of right now, you shouldn't. This project is in very early stages of developement and not in a usable state.
+
+
 # Tech Stack
 
 
