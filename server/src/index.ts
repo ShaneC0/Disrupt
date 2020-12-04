@@ -4,6 +4,7 @@ import express from "express";
 import morgan from "morgan";
 import { createServer } from "http"
 import { Server } from "socket.io"
+import cors from "cors"
 
 
 import {
@@ -27,6 +28,9 @@ io.on("connection", socket => {
   })
 })
 
+app.use(cors({
+  origin: "*"
+}))
 
 app.use(express.json());
 

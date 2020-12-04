@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    button {
+        @apply p-2 rounded-sm bg-coolGray-300 text-coolGray-800
+    }
+    button:hover {
+        @apply bg-teal-600 text-coolGray-300
+    }
+    
+    a {
+        @apply underline cursor-pointer
+    }
+    a:hover {
+        @apply text-coolGray-900
+    }
+
+    .auth-form {
+        @apply col-start-2 row-start-2 text-coolGray-100 flex flex-col px-16 py-12 rounded-md items-center
+    }
+    .auth-form h1 {
+        @apply text-5xl
+    }
+    .auth-form .form-group {
+        @apply flex flex-col my-2 w-full
+    }
+    .auth-form .form-group p {
+        @apply text-rose-500 text-sm
+    }
+    .auth-form label {
+        @apply text-xl my-2
+    }
+    .auth-form input {
+        @apply bg-coolGray-800 p-2 rounded-sm text-lg border border-coolGray-600 focus:ring-2 focus:ring-teal-300
+    }
+    .auth-form .error-input {
+        @apply ring-2 ring-rose-800
+    }
+    .auth-form button {
+        @apply w-full
+    }
+
+}

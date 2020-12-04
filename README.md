@@ -16,7 +16,7 @@
 # Tech Stack
 
 
-## Frontend
+## Desktop
  - JavaScript
  - Electron
  - React
