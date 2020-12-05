@@ -32,7 +32,7 @@ export default class App extends React.Component {
     }
   }
 
-  async fetchUserData() {
+  async componentDidMount() {
     const response = await fetch(`${API_URL}/auth/authorize`, {
       headers: {
         Authorization: `Bearer ${localStorage.token}`
@@ -42,10 +42,6 @@ export default class App extends React.Component {
     const data = await response.json()
 
     this.setState({user: data.user, servers: data.servers})
-  }
-
-  async componentDidMount() {
-    await this.fetchUserData()
   }
 
   render() {
