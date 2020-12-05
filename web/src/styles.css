@@ -42,4 +42,8 @@
         @apply w-full
     }
 
+    .server-button {
+        @apply w-3/4 h-16 rounded-lg bg-coolGray-600 text-coolGray-100  my-4
+    }
+
 }

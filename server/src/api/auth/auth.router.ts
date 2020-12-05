@@ -1,10 +1,11 @@
 import { Request, Router } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, ManyToMany } from "typeorm";
 import { hash, verify } from "argon2";
 import { validate } from "class-validator";
 import * as jwt from "jsonwebtoken";
 
 import User from "../../entity/User";
+import Membership from "../../entity/Membership";
 
 const authRouter = Router();
 
@@ -26,7 +27,7 @@ authRouter.post("/signup", async (req, res, next) => {
     const existingUser = await repository.findOne({ username });
 
     if (existingUser) {
-      return next(new Error("Username taken"));
+      return next(new Error("username taken"));
     }
 
     const hashedPassword = await hash(password);
@@ -40,7 +41,7 @@ authRouter.post("/signup", async (req, res, next) => {
     jwt.sign(
       {
         username: user.username,
-        id: user.id
+        id: user.id,
       },
       process.env.TOKEN_SECRET,
       {
@@ -72,7 +73,7 @@ authRouter.post("/signin", async (req, res, next) => {
     jwt.sign(
       {
         username: existingUser.username,
-        id: existingUser.id
+        id: existingUser.id,
       },
       process.env.TOKEN_SECRET,
       {
@@ -91,12 +92,26 @@ authRouter.post("/signin", async (req, res, next) => {
   }
 });
 
-authRouter.get('/authorize', (req, res, next) => {
-  if(req['user']) {
-    return res.json({user: req['user'] })
+authRouter.get("/authorize", async (req, res, next) => {
+  if (req["user"]) {
+    const userRepository = getRepository(User);
+
+    const user = await userRepository.findOne(req["user"]["id"]);
+    delete user.password
+
+    const memberships = await getRepository(Membership)
+      .createQueryBuilder("membership")
+      .leftJoinAndSelect("membership.server", "server")
+      .where("membership.userId = :id", { id: req["user"]["id"] })
+      .getMany();
+
+    const servers = memberships.map(membership => membership.server)
+
+    return res.json({ user, servers });
+
   } else {
-    return res.json({user: null})
+    return res.json({ user: null });
   }
-})
+});
 
 export default authRouter;

@@ -13,10 +13,6 @@ export default class Auth extends React.Component {
   Owns two  child components for signup and signin forms
   active form is stored in state and toggle with a button in the form.
 
-  TODO: 
-      - Error rings on inputs
-      - error handling
-
   */
 
   constructor(props) {
@@ -44,17 +40,13 @@ export default class Auth extends React.Component {
   }
 
   async postCredentials(e) {
-    /*
-        TODO: 
-         - Handle errors
-    */
     e.preventDefault();
 
     if (
       this.state.authMethod === "signup" &&
       this.state.password !== this.state.confirmPassword
     ) {
-      this.setState({ errors: ["Passwords don't match"] });
+      this.setState({ errors: ["passwords don't match"] });
     } else {
       const response = await fetch(`${API_URL}/auth/${this.state.authMethod}`, {
         method: "POST",
@@ -75,7 +67,6 @@ export default class Auth extends React.Component {
         } else {
           this.setState({ errors: [data.message] });
         }
-        console.log(this.state.errors);
       } else {
         localStorage.token = data.token;
         this.props.history.push("/app");

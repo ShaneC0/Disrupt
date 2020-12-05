@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function SignupForm({ switchAuth, handleChange, submit }) {
-  /*
-  IDEAS FOR HANDLING ERRORS:
-    - Store object in state with individual keys for each inputs errors
-    - I can search through errors for a fields errors with "find" function
-  */
+export default function SignupForm({
+  switchAuth,
+  handleChange,
+  submit,
+  errors,
+}) {
   return (
     <form className="auth-form">
       <h1>Disrupt</h1>
@@ -13,23 +13,41 @@ export default function SignupForm({ switchAuth, handleChange, submit }) {
       <div className="form-group">
         <label>Username</label>
         <input
+          className={
+            errors.filter((err) => err.includes("username")).length > 0
+              ? "error-input"
+              : ""
+          }
           type="text"
           placeholder="Username"
           name="username"
           onChange={(e) => handleChange(e)}
         />
-        <p>Username must be at least 2 characters long</p>
+        {errors.length > 0
+          ? errors
+              .filter((err) => err.includes("username"))
+              .map((err, i) => <p key={i}>{err}</p>)
+          : null}
       </div>
 
       <div className="form-group">
         <label>Password</label>
         <input
+          className={
+            errors.filter((err) => err.includes("password")).length > 0
+              ? "error-input"
+              : ""
+          }
           type="password"
           placeholder="Password"
           name="password"
           onChange={(e) => handleChange(e)}
         />
-        <p>Password must be at least 8 characters long</p>
+        {errors.length > 0
+          ? errors
+              .filter((err) => err.includes("password"))
+              .map((err, i) => <p key={i}>{err}</p>)
+          : null}
       </div>
 
       <div className="form-group">
