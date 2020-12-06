@@ -13,12 +13,14 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        'app': '5vw 15vw 65vw 15vw',
-        'auth': 'auto 30vw auto'
+        'app': '5vw 95vw',
+        'auth': 'auto 30vw auto',
+        'server': '15vw auto 15vw'
       },
       gridTemplateRows: {
-        'app': '2vh auto',
-        'auth': 'auto 60vh auto'
+        'app': '2vh 98vh',
+        'auth': 'auto 60vh auto',
+        'server': '4vh auto 4vh'
       }
     },
   },

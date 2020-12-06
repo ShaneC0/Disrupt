@@ -19,9 +19,7 @@ ReactDOM.render(
   <Router>
       <Switch>
         <Route path="/auth" component={Auth} />
-        <Route path="/app">
-          {localStorage.token ? <App /> : <Redirect to="/auth" />}
-        </Route>
+        <Route path="/app" component={App} />
       </Switch>
   </Router>,
   document.getElementById("root")

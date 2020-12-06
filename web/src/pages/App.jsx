@@ -6,6 +6,7 @@ import ServerList from "../components/lists/ServerList.jsx"
 import ChannelList from "../components/lists/ChannelList.jsx"
 import UserList from "../components/lists/UserList.jsx"
 import MessageList from "../components/lists/MessageList.jsx";
+import Server from "../components/containers/Server.jsx";
 
 export default class App extends React.Component {
 
@@ -20,6 +21,10 @@ export default class App extends React.Component {
     On mount makes a request to backend for user and servers
 
     houses the server component
+
+    TODO: 
+     - Hold a current server and pass it to the server component
+     - Have some sort of placeholder when a server isn't selecteds
 
   */
 
@@ -48,15 +53,16 @@ export default class App extends React.Component {
     return (
       <div className="bg-warmGray-300 h-screen w-screen grid grid-cols-app grid-rows-app">
 
+        {/* Top bar */}
         <div className="row-span-1 col-span-5 bg-coolGray-900"></div>
 
-        <ServerList servers={this.state.servers}/>
+        {/* component displays the loaded servers */}
+        <ServerList servers={this.state.servers} logout={() => {
+          delete localStorage.token
+          this.props.history.push("/auth")
+        }}/>
 
-        <ChannelList />
-        
-        <MessageList />
-
-        <UserList />
+        <Server server={this.state.server}/>
 
       </div>
     );

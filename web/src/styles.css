@@ -4,7 +4,7 @@
 
 @layer base {
     button {
-        @apply p-2 rounded-sm bg-coolGray-300 text-coolGray-800 transition-all duration-300
+        @apply p-2 rounded-sm bg-coolGray-300 text-coolGray-800 transition-all duration-500
     }
     button:hover {
         @apply bg-teal-600 text-coolGray-300
@@ -43,7 +43,7 @@
     }
 
     .server-button {
-        @apply w-3/4 h-16 rounded-2xl bg-coolGray-600 text-coolGray-100  my-4 text-3xl
+        @apply w-3/4 h-16 rounded-2xl bg-coolGray-600 text-coolGray-100 mb-2 text-3xl
     }
 
 }
