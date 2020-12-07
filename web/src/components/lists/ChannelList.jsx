@@ -1,5 +1,7 @@
 import React from "react";
 
-export default function ChannelList() {
-  return <div className="bg-coolGray-800"></div>;
+export default function ChannelList({channels}) {
+  return <div className="">
+    {channels.length > 0 ? channels.map(channel => <p>{channel.name}</p>) : null}
+  </div>;
 }

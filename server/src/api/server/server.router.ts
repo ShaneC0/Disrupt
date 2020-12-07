@@ -14,52 +14,28 @@ serverRouter.get("/all", async (req, res, next) => {
   return res.json({ servers });
 });
 
-//get a server by its id
-serverRouter.get("/details/:id", async (req, res, next) => {
+//Get a server with members, owner, and channels
+serverRouter.get("/info/:id", async (req, res, next) => {
   const { id } = req.params;
-  const repository = getRepository(Server);
-  const server = await repository.findOne(id);
-  if (!server) {
-    return next();
-  } else {
-    return res.json({ server });
-  }
-});
+  const serverRepository = getRepository(Server);
+  const membershipRepository = getRepository(Membership);
 
-//get servers where user is a member by user id
-serverRouter.get("/member", async (req, res, next) => {
-  const { id } = req["user"];
-  const repository = getRepository(Membership);
-  const memberships = await repository
-    .createQueryBuilder("membership")
-    .leftJoinAndSelect("membership.server", "server")
-    .where("membership.userId = :id", { id })
-    .getMany();
-
-  const servers = memberships.map((mem) => mem.server);
-
-  if (!servers) {
-    return next();
-  } else {
-    return res.json({ servers });
-  }
-});
-
-//get servers where user is owner by user id
-serverRouter.get("/owner", async (req, res, next) => {
-  const { id } = req["user"];
-  const repository = getRepository(Server);
-
-  const servers = await repository
+  const server = await serverRepository
     .createQueryBuilder("server")
-    .where("server.ownerId = :id", { id })
+    .where("server.id = :id", { id })
+    .leftJoinAndSelect("server.owner", "owner")
+    .leftJoinAndSelect("server.channels", "channels")
+    .getOne();
+
+  const memberships = await membershipRepository
+    .createQueryBuilder("membership")
+    .where("membership.serverId = :id", { id })
+    .leftJoinAndSelect("membership.user", "user")
     .getMany();
 
-  if (!servers) {
-    return next();
-  } else {
-    return res.json({ servers });
-  }
+  const users = memberships.map(membership => membership.user)
+
+  return res.json({ owner: server.owner, channels: server.channels, users });
 });
 
 //create server
@@ -152,29 +128,13 @@ serverRouter.post("/join/:id", async (req, res, next) => {
 
       await repository.save(membershipToCreate);
 
-      const server = await getRepository(Server).findOne(serverId)
+      const server = await getRepository(Server).findOne(serverId);
 
       return res.json({ server });
     } else {
       return next(new Error("Already in this server"));
     }
   }
-});
-
-//find all users in a server
-serverRouter.get("/users/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const repository = getRepository(Membership);
-
-  const memberships = await repository
-    .createQueryBuilder("membership")
-    .leftJoinAndSelect("membership.user", "user")
-    .where("membership.serverId = :id", { id })
-    .getMany();
-
-  const users = memberships.map((membership) => membership.user);
-
-  res.json({ users });
 });
 
 export default serverRouter;

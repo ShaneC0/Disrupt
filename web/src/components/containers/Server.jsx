@@ -1,5 +1,10 @@
 import React from "react";
 
+import { API_URL } from "../../constants";
+
+import ChannelList from "../lists/ChannelList.jsx"
+import UserList from "../lists/UserList.jsx"
+
 export default class Server extends React.Component {
   /*
         The server component state consists of a servers:
@@ -13,8 +18,6 @@ export default class Server extends React.Component {
          - User list
 
         TODO:
-         - Load channels and users into state
-         - Make one API request to get a channels, users, and owner
          - Style title Components
          - Style list components
 
@@ -24,42 +27,60 @@ export default class Server extends React.Component {
     super(props);
 
     this.state = {
-      users: null,
+      users: [],
       owner: null,
       channels: [],
+      currentChannel: null,
     };
+  }
+
+  async componentDidMount() {
+    const response = await fetch(
+      `${API_URL}/server/info/${this.props.server.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    this.setState({
+      users: data.users,
+      owner: data.owner,
+      channels: data.channels,
+      currentChannel: data.channels[0],
+    });
   }
 
   render() {
     return (
       <div className="grid grid-rows-server grid-cols-server">
-
         <div className="border">
-          <h1>Server Name</h1>
+          <p>{this.props.server.name}</p>
         </div>
 
         <div className="border">
-          <h1>Channel Name</h1>
+          <p>
+            {this.state.currentChannel ? this.state.currentChannel.name : null}
+          </p>
         </div>
 
         <div className="border">
           <h1>Users Title</h1>
         </div>
 
-        <div className="border">
-          <h1>Channel List</h1>
-        </div>
+        <ChannelList channels={this.state.channels}/>
 
         <div className="border">
           <h1>Message List</h1>
         </div>
 
-        <div className="border">
-          <h1>User List</h1>
-        </div>
+        <UserList users={this.state.users}/>
 
         <div className="border">
-          <h1>Current User</h1>
+          <p>{this.props.user.username}</p>
         </div>
 
         <div className="border">
@@ -67,9 +88,8 @@ export default class Server extends React.Component {
         </div>
 
         <div className="border">
-          <h1>Nothing</h1>
+          <h1>@ShaneC0</h1>
         </div>
-        
       </div>
     );
   }

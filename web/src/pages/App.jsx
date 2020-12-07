@@ -1,15 +1,14 @@
 import React from "react";
 
-import {API_URL} from "../constants"
+import { API_URL } from "../constants";
 
-import ServerList from "../components/lists/ServerList.jsx"
-import ChannelList from "../components/lists/ChannelList.jsx"
-import UserList from "../components/lists/UserList.jsx"
-import MessageList from "../components/lists/MessageList.jsx";
+import ServerList from "../components/lists/ServerList.jsx";
+import ChannelList from "../components/lists/ChannelList.jsx";
+import UserList from "../components/lists/UserList.jsx";
 import Server from "../components/containers/Server.jsx";
+import Landing from "../components/containers/Landing.jsx";
 
 export default class App extends React.Component {
-
   /*
 
     This component is the main dashboard for the app.
@@ -29,41 +28,51 @@ export default class App extends React.Component {
   */
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       user: null,
-      servers: null
-    }
+      servers: null,
+      currentServer: null,
+    };
   }
 
   async componentDidMount() {
     const response = await fetch(`${API_URL}/auth/authorize`, {
       headers: {
-        Authorization: `Bearer ${localStorage.token}`
-      }
-    })
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    this.setState({user: data.user, servers: data.servers})
+    this.setState({
+      user: data.user,
+      servers: data.servers,
+      currentServer: data.servers[0],
+    });
   }
 
   render() {
     return (
       <div className="bg-warmGray-300 h-screen w-screen grid grid-cols-app grid-rows-app">
-
         {/* Top bar */}
         <div className="row-span-1 col-span-5 bg-coolGray-900"></div>
 
         {/* component displays the loaded servers */}
-        <ServerList servers={this.state.servers} logout={() => {
-          delete localStorage.token
-          this.props.history.push("/auth")
-        }}/>
+        <ServerList
+          servers={this.state.servers}
+          logout={() => {
+            delete localStorage.token;
+            this.props.history.push("/auth");
+          }}
+        />
 
-        <Server server={this.state.server}/>
-
+        {this.state.currentServer ? (
+          <Server server={this.state.currentServer} user={this.state.user} />
+        ) : (
+          <Landing />
+        )}
       </div>
     );
   }
