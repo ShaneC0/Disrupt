@@ -56,15 +56,19 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="bg-warmGray-300 h-screen w-screen grid grid-cols-app grid-rows-app">
-        {/* Top bar */}
+
+
         <div className="row-span-1 col-span-5 bg-coolGray-900"></div>
 
-        {/* component displays the loaded servers */}
+
         <ServerList
           servers={this.state.servers}
           logout={() => {
             delete localStorage.token;
             this.props.history.push("/auth");
+          }}
+          switchServer={(server) => {
+            this.setState({currentServer: server})
           }}
         />
 

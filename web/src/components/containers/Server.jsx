@@ -34,7 +34,7 @@ export default class Server extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  async fetchServerInfo() {
     const response = await fetch(
       `${API_URL}/server/info/${this.props.server.id}`,
       {
@@ -52,6 +52,16 @@ export default class Server extends React.Component {
       channels: data.channels,
       currentChannel: data.channels[0],
     });
+  }
+
+  async componentDidMount() {
+    await this.fetchServerInfo()
+  }
+
+  async componentDidUpdate(prevProps) {
+    if(prevProps.server !== this.props.server) {
+      await this.fetchServerInfo()
+    }
   }
 
   render() {

@@ -2,13 +2,13 @@ import React from "react";
 
 import { FiLogOut, FiPlus, FiLink } from "react-icons/fi";
 
-export default function ServerList({ servers, logout }) {
+export default function ServerList({ servers, logout, switchServer }) {
   return (
     <div className="bg-coolGray-900 flex flex-col items-center justify-between py-4">
       <div className="flex flex-col w-full items-center">
         {servers
           ? servers.map((server, i) => (
-              <button className="server-button" key={i}>
+              <button className="server-button" key={i} onClick={() => switchServer(server)}>
                 {server.name.charAt(0)}
               </button>
             ))
