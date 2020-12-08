@@ -46,4 +46,8 @@
         @apply w-3/4 h-16 rounded-2xl bg-coolGray-600 text-coolGray-100 mb-2 text-3xl
     }
 
+    .channel-button {
+        @apply bg-coolGray-700 hover:bg-coolGray-500 hover:text-teal-50 p-2 text-lg mx-2 text-left text-teal-50 my-1
+    }
+
 }

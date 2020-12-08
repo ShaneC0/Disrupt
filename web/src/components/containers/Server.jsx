@@ -56,38 +56,37 @@ export default class Server extends React.Component {
 
   render() {
     return (
-      <div className="grid grid-rows-server grid-cols-server">
-        <div className="border">
+      <div className="grid grid-rows-server grid-cols-server text-teal-50">
+        <div className="bg-coolGray-700 text-2xl p-2">
           <p>{this.props.server.name}</p>
         </div>
 
-        <div className="border">
+        <div className="bg-coolGray-600 text-xl p-2">
           <p>
-            {this.state.currentChannel ? this.state.currentChannel.name : null}
+            # {this.state.currentChannel ? this.state.currentChannel.name : null}
           </p>
         </div>
 
-        <div className="border">
-          <h1>Users Title</h1>
+        <div className="bg-coolGray-600">
         </div>
 
         <ChannelList channels={this.state.channels}/>
 
-        <div className="border">
+        <div className="bg-coolGray-500">
           <h1>Message List</h1>
         </div>
 
-        <UserList users={this.state.users}/>
+        <UserList users={this.state.users} owner={this.state.owner}/>
 
-        <div className="border">
+        <div className="bg-coolGray-700 text-xl p-2">
           <p>{this.props.user.username}</p>
         </div>
 
-        <div className="border">
+        <div className="bg-coolGray-500">
           <h1>Message input box</h1>
         </div>
 
-        <div className="border">
+        <div className="bg-coolGray-700">
           <h1>@ShaneC0</h1>
         </div>
       </div>
