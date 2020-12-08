@@ -20,7 +20,8 @@ module.exports = {
       gridTemplateRows: {
         'app': '2vh 98vh',
         'auth': 'auto 60vh auto',
-        'server': '5vh auto 5vh'
+        'server': '5vh auto 5vh',
+        'channel': 'auto 5vh'
       }
     },
   },

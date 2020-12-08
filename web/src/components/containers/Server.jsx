@@ -2,9 +2,9 @@ import React from "react";
 
 import { API_URL } from "../../constants";
 
-import Channel from "./Channel.jsx"
-import ChannelList from "../lists/ChannelList.jsx"
-import UserList from "../lists/UserList.jsx"
+import Channel from "./Channel.jsx";
+import ChannelList from "../lists/ChannelList.jsx";
+import UserList from "../lists/UserList.jsx";
 
 export default class Server extends React.Component {
   /*
@@ -56,12 +56,12 @@ export default class Server extends React.Component {
   }
 
   async componentDidMount() {
-    await this.fetchServerInfo()
+    await this.fetchServerInfo();
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.server !== this.props.server) {
-      await this.fetchServerInfo()
+    if (prevProps.server !== this.props.server) {
+      await this.fetchServerInfo();
     }
   }
 
@@ -74,24 +74,26 @@ export default class Server extends React.Component {
 
         <div className="bg-coolGray-600 text-xl p-2">
           <p>
-            # {this.state.currentChannel ? this.state.currentChannel.name : null}
+            #{" "}
+            {this.state.currentChannel ? this.state.currentChannel.name : null}
           </p>
         </div>
 
-        <div className="bg-coolGray-600">
-        </div>
+        <div className="bg-coolGray-600"></div>
 
-        <ChannelList channels={this.state.channels}/>
+        <ChannelList setChannel={(channel) => {
+          this.setState({currentChannel: channel})
+        }} channels={this.state.channels} />
 
-        <Channel />
+        {this.state.currentChannel ? (
+          <Channel channel={this.state.currentChannel} />
+        ) : null}
 
-        <UserList users={this.state.users} owner={this.state.owner}/>
+        <UserList users={this.state.users} owner={this.state.owner} />
 
         <div className="bg-coolGray-700 text-xl p-2">
           <p>{this.props.user.username}</p>
         </div>
-
-
 
         <div className="bg-coolGray-700">
           <h1>@ShaneC0</h1>
