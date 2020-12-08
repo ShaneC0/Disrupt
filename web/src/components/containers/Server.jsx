@@ -2,6 +2,7 @@ import React from "react";
 
 import { API_URL } from "../../constants";
 
+import Channel from "./Channel.jsx"
 import ChannelList from "../lists/ChannelList.jsx"
 import UserList from "../lists/UserList.jsx"
 
@@ -82,9 +83,7 @@ export default class Server extends React.Component {
 
         <ChannelList channels={this.state.channels}/>
 
-        <div className="bg-coolGray-500">
-          <h1>Message List</h1>
-        </div>
+        <Channel />
 
         <UserList users={this.state.users} owner={this.state.owner}/>
 
@@ -92,9 +91,7 @@ export default class Server extends React.Component {
           <p>{this.props.user.username}</p>
         </div>
 
-        <div className="bg-coolGray-500">
-          <h1>Message input box</h1>
-        </div>
+
 
         <div className="bg-coolGray-700">
           <h1>@ShaneC0</h1>

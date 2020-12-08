@@ -7,6 +7,7 @@ import ChannelList from "../components/lists/ChannelList.jsx";
 import UserList from "../components/lists/UserList.jsx";
 import Server from "../components/containers/Server.jsx";
 import Landing from "../components/containers/Landing.jsx";
+import CreateServerForm from "../components/forms/CreateServerForm.jsx";
 
 export default class App extends React.Component {
   /*
@@ -20,10 +21,6 @@ export default class App extends React.Component {
     On mount makes a request to backend for user and servers
 
     houses the server component
-
-    TODO: 
-     - Hold a current server and pass it to the server component
-     - Have some sort of placeholder when a server isn't selecteds
 
   */
 
@@ -56,10 +53,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="bg-warmGray-300 h-screen w-screen grid grid-cols-app grid-rows-app">
-
-
         <div className="row-span-1 col-span-5 bg-coolGray-900"></div>
-
 
         <ServerList
           servers={this.state.servers}
@@ -68,14 +62,14 @@ export default class App extends React.Component {
             this.props.history.push("/auth");
           }}
           switchServer={(server) => {
-            this.setState({currentServer: server})
+            this.setState({ currentServer: server });
           }}
         />
 
         {this.state.currentServer ? (
           <Server server={this.state.currentServer} user={this.state.user} />
         ) : (
-          <Landing />
+          <Landing user={this.state.user} />
         )}
       </div>
     );
