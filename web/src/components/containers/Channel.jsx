@@ -3,6 +3,9 @@ import React from "react";
 import { API_URL } from "../../constants";
 
 import { FiSend } from "react-icons/fi";
+import io from "socket.io-client";
+
+let socket;
 
 export default class Channel extends React.Component {
   /*
@@ -45,24 +48,13 @@ export default class Channel extends React.Component {
     if (!response.ok) {
       console.error(data);
     } else {
-      this.setState({ messages: data.messages.sort((a, b) => {
-        let c = new Date(a.createDate)
-        let d = new Date(b.createDate)
-        return c - d
-      })});
-    }
-  }
-
-  async componentDidMount() {
-    await this.fetchMessages();
-
-    var messages = document.querySelector("#message-list");
-    messages.scrollTop = messages.scrollHeight - messages.clientHeight;
-  }
-
-  async componentDidUpdate(prevProps) {
-    if (prevProps.channel !== this.props.channel) {
-      await this.fetchMessages();
+      this.setState({
+        messages: data.messages.sort((a, b) => {
+          let c = new Date(a.createDate);
+          let d = new Date(b.createDate);
+          return c - d;
+        }),
+      });
     }
   }
 
@@ -89,11 +81,35 @@ export default class Channel extends React.Component {
       this.setState((state) => ({
         messages: [...state.messages, data.message],
       }));
+
+      socket.emit("message", data.message);
+
       document.getElementById("message").value = "";
     }
-
-    //emit event with message
   }
+
+  async componentDidMount() {
+    socket = io.connect("http://localhost:6969");
+
+    socket.on("message", (message) => {
+      if (message.channelId === this.props.channel.id) {
+        this.setState((state) => ({ messages: [...state.messages, message] }));
+      }
+    });
+
+    await this.fetchMessages();
+
+    var messages = document.querySelector("#message-list");
+    messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (prevProps.channel !== this.props.channel) {
+      await this.fetchMessages();
+    }
+  }
+
+
 
   render() {
     return (
