@@ -6,7 +6,7 @@ export default function ChannelList({ channels, setChannel }) {
       {channels.length > 0
         ? channels.map((channel) => (
             <button
-              className="channel-button"
+              className="list-button"
               onClick={() => setChannel(channel)}
             >
               <p># {channel.name}</p>

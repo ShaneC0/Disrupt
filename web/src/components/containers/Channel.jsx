@@ -8,9 +8,6 @@ export default class Channel extends React.Component {
     it takes a channel as props
 
     on mount, it requests the messages for the channel and populates the state
-
-    Maybe use grid or maybe just use flex with height? 
-    probably grid just to be consistent.
     */
 
   constructor(props) {
@@ -57,19 +54,22 @@ export default class Channel extends React.Component {
         <div>
           {this.state.messages.length > 0
             ? this.state.messages.map((message) => (
-                <div className="p-2 mb-2">
-                  <p>{message.user.username}</p>
+
+                <div className="border-b border-coolGray-600 p-2 mx-2">
+                  <p className="text-teal-400">{message.user.username}</p>
                   <p>{message.text}</p>
                 </div>
+
               ))
             : null}
         </div>
 
-        <div className="">
+        <div className="bg-coolGray-700 p-2">
           <input
             type="text"
             placeholder="Type a message to start chatting!"
-            className="w-full text-lg p-2 rounded-md"
+            className="bg-coolGray-500 w-full p-1 rounded-md"
+            name="message"
           />
         </div>
       </div>

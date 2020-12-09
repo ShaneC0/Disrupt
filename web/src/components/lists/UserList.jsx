@@ -5,7 +5,7 @@ export default function UserList({ users, owner }) {
     <div className="bg-coolGray-700 flex flex-col">
       <p className="text-lg mx-2">Owner</p>
       {owner ? (
-        <button className="channel-button text-sm">{owner.username}</button>
+        <button className="list-button text-sm">{owner.username}</button>
       ) : null}
 
       <p className="text-lg mx-2">Users</p>
@@ -13,7 +13,7 @@ export default function UserList({ users, owner }) {
         ? users
             .filter((user) => user.username !== owner.username)
             .map((user) => (
-              <button className="channel-button text-sm">
+              <button className="list-button text-sm">
                 <p>{user.username}</p>
               </button>
             ))
