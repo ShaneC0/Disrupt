@@ -12,8 +12,8 @@ export default function UserList({ users, owner }) {
       {users.length > 0
         ? users
             .filter((user) => user.username !== owner.username)
-            .map((user) => (
-              <button className="list-button text-sm">
+            .map((user, i) => (
+              <button className="list-button text-sm" key={i}>
                 <p>{user.username}</p>
               </button>
             ))

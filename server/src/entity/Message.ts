@@ -13,7 +13,7 @@ export default class Message {
     @Column()
     @IsNotEmpty()
     @IsString()
-    @Length(1, 40)
+    @Length(1, 500)
     text: string;
 
     @CreateDateColumn()

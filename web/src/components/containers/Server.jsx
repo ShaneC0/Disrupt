@@ -81,9 +81,12 @@ export default class Server extends React.Component {
 
         <div className="bg-coolGray-600"></div>
 
-        <ChannelList setChannel={(channel) => {
-          this.setState({currentChannel: channel})
-        }} channels={this.state.channels} />
+        <ChannelList
+          setChannel={(channel) => {
+            this.setState({ currentChannel: channel });
+          }}
+          channels={this.state.channels}
+        />
 
         {this.state.currentChannel ? (
           <Channel channel={this.state.currentChannel} />
@@ -95,9 +98,7 @@ export default class Server extends React.Component {
           <p>{this.props.user.username}</p>
         </div>
 
-        <div className="bg-coolGray-700">
-          <h1>@ShaneC0</h1>
-        </div>
+        <div className="bg-coolGray-700"></div>
       </div>
     );
   }
